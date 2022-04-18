@@ -1,10 +1,12 @@
 package com.shpp.p2p.cs.mbaklan.assignment3;
 
+import acm.util.RandomGenerator;
 import com.shpp.cs.a.console.TextProgram;
 
 public class Assignment3Part5 extends TextProgram {
     public static final int SUM_FOR_FINISH = 20;
     public static final int STARTING_SUM = 1;
+    public static final RandomGenerator RG = RandomGenerator.getInstance();
 
     public void run() {
         playGame(STARTING_SUM, SUM_FOR_FINISH);
@@ -12,10 +14,15 @@ public class Assignment3Part5 extends TextProgram {
 
     private int playGame(int startingSum, int sumForFinish) {
         if (startingSum >= sumForFinish) return startingSum;
+        int sumOnTable = startingSum;
 
-        if (isEagle())
+        if (isEagle()) {
+            startingSum +=
+        }
     }
 
     private boolean isEagle() {
+        int i = RG.nextInt(2);
+        return i == 0;
     }
 }
