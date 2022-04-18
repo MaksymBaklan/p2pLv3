@@ -14,7 +14,7 @@ public class Assignment3Part3 extends TextProgram {
      * raised to the power of parameter 2
      * @param base This number must be increased to the power
      * @param exponent This is a power*/
-    private double raiseToPower(double base, int exponent) {
+    public static double raiseToPower(double base, int exponent) {
         if (exponent > 0) {
             double result = 1;
             for (int i = 1; i <= exponent; i++) {
