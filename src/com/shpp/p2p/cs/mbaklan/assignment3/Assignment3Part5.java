@@ -10,6 +10,12 @@ public class Assignment3Part5 extends TextProgram {
         playGame(STARTING_SUM, SUM_FOR_FINISH);
     }
 
-    private void playGame(int startingSum, int sumForFinish) {
+    private int playGame(int startingSum, int sumForFinish) {
+        if (startingSum >= sumForFinish) return startingSum;
+
+        if (isEagle())
+    }
+
+    private boolean isEagle() {
     }
 }
