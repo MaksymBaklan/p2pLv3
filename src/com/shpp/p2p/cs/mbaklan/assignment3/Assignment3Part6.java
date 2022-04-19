@@ -16,26 +16,43 @@ public class Assignment3Part6 extends WindowProgram {
 
     public static final int WIDTH = 400;
     public static final int HEIGHT = 400;
+
+    public static final double SCALE_FACTOR = 5; // NEED TO think
     public static final int ANIMATION_TIME = 5;
-    private RandomGenerator rg = new RandomGenerator();
+    //private RandomGenerator rg = new RandomGenerator();
     private ArrayList<MyAnimator> animationList = new ArrayList<>();
 
     {
-        animationList.add(MyAnimator.init("Some animation", 2));
+        animationList.add(new MyAnimator().init("Some animation", 1));
     }
 
 
     public void run() {
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; )
+        setAnimationPosition();
+        //start animations
+        for (MyAnimator ma: animationList) {
+            ma.start();
         }
 
+        pause(ANIMATION_TIME * 5);
 
-        /*pause(ANIMATION_TIME * 5);
-        animation.interrupt();*/
+        for (MyAnimator ma: animationList) {
+            ma.interrupt();
+        }
 
         System.out.println("the end");
+    }
+
+    private void setAnimationPosition() {
+        double dx = getWidth() / 4;
+        double dy = getHeight() / 4;
+
+        for (double i = dy, count = 0; i < getHeight(); i += dy, count += 1) {
+            for (double j = dx;  j < getWidth(); j += dx) {
+                animationList.get((int)count).setXY(i, j);
+            }
+        }
     }
 
     /*private void playAnimation() {
@@ -89,13 +106,13 @@ public class Assignment3Part6 extends WindowProgram {
         }
     }*/
 
-    private static class MyAnimator extends Animator {
+    private class MyAnimator extends Animator {
         private String name;
         private double size;
         private double x;
         private double y;
 
-        public static MyAnimator init(String name, double size) {
+        public  MyAnimator init(String name, double size) {
             MyAnimator animator = new MyAnimator();
             animator.name = name;
             animator.size = size;
@@ -109,7 +126,11 @@ public class Assignment3Part6 extends WindowProgram {
 
         @Override
         public void run() {
-            playAnimation(x, y, 60);
+            double scale = WIDTH / 4 / size;
+            //todo play some animation
+            while (isInterrupted()) {
+                playAnimation(x, y, 60);
+            }
         }
     }
 }
