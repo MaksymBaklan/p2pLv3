@@ -3,34 +3,35 @@ package com.shpp.p2p.cs.mbaklan.assignment3;
 
 import acm.graphics.GOval;
 import acm.graphics.GPoint;
+import acm.util.Animator;
 import acm.util.RandomGenerator;
 import com.shpp.cs.a.graphics.WindowProgram;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
 public class Assignment3Part6 extends WindowProgram {
+
+    public static final
     public static final int ANIMATION_TIME = 5;
     private RandomGenerator rg = new RandomGenerator();
-    static int somex = 1;
-    static int somey = 1;
+    private ArrayList<MyAnimator> animationList = new ArrayList<>();
+
+
+
     public void run() {
 
-        /*AnimationThread animation = new AnimationThread();
-        animation.start();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; )
+        }
 
-        pause(ANIMATION_TIME * 5);
-        animation.interrupt();
 
-        System.out.println("the end");*/
-        //playAnimation();
-        AnimationThread thread1 = new AnimationThread();
-        AnimationThread thread2 = new AnimationThread();
+        /*pause(ANIMATION_TIME * 5);
+        animation.interrupt();*/
 
-        thread1.start();
-        thread2.start();
-
+        System.out.println("the end");
     }
 
     /*private void playAnimation() {
@@ -63,7 +64,7 @@ public class Assignment3Part6 extends WindowProgram {
         }
     }*/
 
-    private void playAnimation(int dx, int dy, int scale){
+    private void playAnimation(double dx, double dy, int scale){
         for (double i = 0d; i < 12 * PI; i += 0.001) {
 /*          double x = sin( 5 * i + PI / 2);
             double y = sin(6 * i);*/
@@ -75,12 +76,27 @@ public class Assignment3Part6 extends WindowProgram {
         }
 
     }
-    private class AnimationThread extends Thread {
+    /*private class AnimationThread extends Thread {
         @Override
         public void run() {
             while (!isInterrupted()) {
                 playAnimation(100, 100, 60);
             }
+        }
+    }*/
+
+    private class MyAnimator extends Animator {
+        private double x;
+        private double y;
+
+        public void init(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public void run() {
+            playAnimation(x, y, 60);
         }
     }
 }
