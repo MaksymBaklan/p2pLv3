@@ -16,10 +16,12 @@ public class Assignment3Part6 extends WindowProgram {
     public static final int HEIGHT = 300;
 
     public static final double SCALE_FACTOR = 5; // NEED TO think
-    public static final int ANIMATION_TIME = 3;
+    public static final int ANIMATION_TIME = 5000;
     private RandomGenerator rg = new RandomGenerator();
     private ArrayList<String> allAnimations = new ArrayList<>();
     private ArrayList<MyAnimator> animationsForPlay = new ArrayList<>();
+
+    private boolean animationCanPlay = true;
 
     {
         allAnimations.add("Circle");
@@ -39,11 +41,12 @@ public class Assignment3Part6 extends WindowProgram {
             ma.start();
         }
 
-        /*pause(ANIMATION_TIME * 1000);
+        pause(ANIMATION_TIME );
 
         for (MyAnimator ma: animationsForPlay) {
+            animationCanPlay = false;
             ma.interrupt();
-        }*/
+        }
 
         System.out.println("the end");
     }
@@ -91,7 +94,9 @@ public class Assignment3Part6 extends WindowProgram {
     }*/
 
     private void playAnimation(double dx, double dy, double scale){
+
         for (double i = 0d; i < 2 * PI; i += 0.01) {
+            if (!animationCanPlay) break;
             double x = sin(i);
             double y = cos(i);
           /*double x = sin( 5 * i + PI / 2);
@@ -136,12 +141,18 @@ public class Assignment3Part6 extends WindowProgram {
             this.y = y;
         }
 
+        public double getX() {
+            return x;
+        }
+
+        public double getY() {
+            return y;
+        }
+
         @Override
         public void run() {
             double scale = WIDTH / 4 / size;
-            while (!isInterrupted()) {
-                playAnimation(x, y, scale);
-            }
+            playAnimation(x, y, scale);
         }
     }
 }
