@@ -14,11 +14,15 @@ import static java.lang.Math.*;
 
 public class Assignment3Part6 extends WindowProgram {
 
-    public static final
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 400;
     public static final int ANIMATION_TIME = 5;
     private RandomGenerator rg = new RandomGenerator();
     private ArrayList<MyAnimator> animationList = new ArrayList<>();
 
+    {
+        animationList.add(MyAnimator.init("Some animation", 2));
+    }
 
 
     public void run() {
@@ -85,11 +89,20 @@ public class Assignment3Part6 extends WindowProgram {
         }
     }*/
 
-    private class MyAnimator extends Animator {
+    private static class MyAnimator extends Animator {
+        private String name;
+        private double size;
         private double x;
         private double y;
 
-        public void init(double x, double y) {
+        public static MyAnimator init(String name, double size) {
+            MyAnimator animator = new MyAnimator();
+            animator.name = name;
+            animator.size = size;
+            return animator;
+        }
+
+        public void setXY(double x, double y) {
             this.x = x;
             this.y = y;
         }
