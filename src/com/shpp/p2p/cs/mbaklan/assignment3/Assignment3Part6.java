@@ -2,55 +2,60 @@ package com.shpp.p2p.cs.mbaklan.assignment3;
 
 
 import acm.graphics.GOval;
-import acm.graphics.GPoint;
 import acm.util.Animator;
 import acm.util.RandomGenerator;
 import com.shpp.cs.a.graphics.WindowProgram;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
 public class Assignment3Part6 extends WindowProgram {
 
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 400;
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 300;
 
     public static final double SCALE_FACTOR = 5; // NEED TO think
-    public static final int ANIMATION_TIME = 5;
-    //private RandomGenerator rg = new RandomGenerator();
-    private ArrayList<MyAnimator> animationList = new ArrayList<>();
+    public static final int ANIMATION_TIME = 3;
+    private RandomGenerator rg = new RandomGenerator();
+    private ArrayList<String> allAnimations = new ArrayList<>();
+    private ArrayList<MyAnimator> animationsForPlay = new ArrayList<>();
 
     {
-        animationList.add(new MyAnimator().init("Some animation", 1));
+        allAnimations.add("Circle");
     }
 
 
     public void run() {
 
+        int randInt = rg.nextInt(allAnimations.size());
+        for (int i = 0; i < 4; i++) {
+            animationsForPlay.add(new MyAnimator().init(allAnimations.get(randInt)));
+        }
+
         setAnimationPosition();
         //start animations
-        for (MyAnimator ma: animationList) {
+        for (MyAnimator ma: animationsForPlay) {
             ma.start();
         }
 
-        pause(ANIMATION_TIME * 5);
+        /*pause(ANIMATION_TIME * 1000);
 
-        for (MyAnimator ma: animationList) {
+        for (MyAnimator ma: animationsForPlay) {
             ma.interrupt();
-        }
+        }*/
 
         System.out.println("the end");
     }
 
     private void setAnimationPosition() {
+        System.out.println(String.format("Width: %s Height: %s", getWidth(), getHeight()));
         double dx = getWidth() / 4;
         double dy = getHeight() / 4;
 
-        for (double i = dy, count = 0; i < getHeight(); i += dy, count += 1) {
-            for (double j = dx;  j < getWidth(); j += dx) {
-                animationList.get((int)count).setXY(i, j);
+        for (double i = dy, count = 0; i < getHeight(); i += 2 * dy) {
+            for (double j = dx;  j < getWidth(); j += 2 * dx, count += 1) {
+                animationsForPlay.get((int)count).setXY(j, i);
             }
         }
     }
@@ -85,12 +90,14 @@ public class Assignment3Part6 extends WindowProgram {
         }
     }*/
 
-    private void playAnimation(double dx, double dy, int scale){
-        for (double i = 0d; i < 12 * PI; i += 0.001) {
-/*          double x = sin( 5 * i + PI / 2);
-            double y = sin(6 * i);*/
-            double x = -sin(i) * (pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));
-            double y = -cos(i) *(pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));
+    private void playAnimation(double dx, double dy, double scale){
+        for (double i = 0d; i < 2 * PI; i += 0.01) {
+            double x = sin(i);
+            double y = cos(i);
+          /*double x = sin( 5 * i + PI / 2);
+          double y = sin(6 * i);*/
+            /*double x = -sin(i) * (pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));
+            double y = -cos(i) *(pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));*/
             GOval oval = new GOval(dx + x * scale, dy + y * scale, 1, 1);
             add(oval);
             pause(1000/384);
@@ -112,11 +119,16 @@ public class Assignment3Part6 extends WindowProgram {
         private double x;
         private double y;
 
-        public  MyAnimator init(String name, double size) {
-            MyAnimator animator = new MyAnimator();
-            animator.name = name;
-            animator.size = size;
-            return animator;
+        public  MyAnimator init(String name) {
+            this.name = name;
+            switch (name) {
+                case "Circle":
+                    size = 1;
+                    break;
+                default:
+                    size = 1;
+            }
+            return this;
         }
 
         public void setXY(double x, double y) {
@@ -127,9 +139,8 @@ public class Assignment3Part6 extends WindowProgram {
         @Override
         public void run() {
             double scale = WIDTH / 4 / size;
-            //todo play some animation
-            while (isInterrupted()) {
-                playAnimation(x, y, 60);
+            while (!isInterrupted()) {
+                playAnimation(x, y, scale);
             }
         }
     }
