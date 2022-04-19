@@ -15,7 +15,6 @@ public class Assignment3Part6 extends WindowProgram {
     public static final int WIDTH = 300;
     public static final int HEIGHT = 300;
 
-    public static final double SCALE_FACTOR = 5; // NEED TO think
     public static final int ANIMATION_TIME = 5000;
     private RandomGenerator rg = new RandomGenerator();
     private ArrayList<String> allAnimations = new ArrayList<>();
@@ -25,14 +24,19 @@ public class Assignment3Part6 extends WindowProgram {
 
     {
         allAnimations.add("Circle");
+        allAnimations.add("Lissajou");
+        allAnimations.add("Butterfly");
+        allAnimations.add("Epicycloid");
+        allAnimations.add("Hypocycloid");
     }
 
 
     public void run() {
 
-        int randInt = rg.nextInt(allAnimations.size());
+        //int randInt = rg.nextInt(allAnimations.size());
         for (int i = 0; i < 4; i++) {
-            animationsForPlay.add(new MyAnimator().init(allAnimations.get(randInt)));
+//            animationsForPlay.add(new MyAnimator().init(allAnimations.get(randInt)));
+            animationsForPlay.add(new MyAnimator().init(allAnimations.get(4)));
         }
 
         setAnimationPosition();
@@ -63,60 +67,81 @@ public class Assignment3Part6 extends WindowProgram {
         }
     }
 
-    /*private void playAnimation() {
-        GOval oval = new GOval(50, 50, 50, 50);
-        oval.setColor(Color.RED);
-        for (double i = 50; i >0 ; i-=1) {
-            GOval oval1 = new GOval(50 + i, 50 + i, i, i);
-            oval.setColor(Color.RED);
-            add(oval1);
-            pause(1000/12);
-        }
+    private void playAnimation(String name, double scale, MyAnimator animator){
 
-        for (double i = 100; i > 50 ; i-=1) {
-            GOval oval2 = new GOval(50 + i, 50 + i, i, i);
-            oval2.setColor(Color.RED);
-            add(oval2);
-            pause(1000/12);
+        switch(name) {
+            case "Circle":
+                drawCircles(scale, animator);
+                break;
+            case "Lissajou":
+                drawLissajou(scale, animator);
+                break;
+            case "Epicycloid":
+                drawEpicycloid(scale, animator);
+                break;
+            case "Butterfly":
+                drawButterfly(scale, animator);
+                break;
+            case "Hypocycloid":
+                drawHypocycloid(scale, animator);
+                break;
         }
-        for (double i = 150; i > 100 ; i-=1) {
-            GOval oval2 = new GOval(50 + i, 50 + i, i, i);
-            oval.setColor(Color.RED);
-            add(oval2);
-            pause(1000/12);
-        }
-        for (double i = 200; i > 150 ; i-=1) {
-            GOval oval2 = new GOval(50 + i, 50 + i, i, i);
-            oval2.setColor(Color.RED);
-            add(oval2);
-            pause(1000/24);
-        }
-    }*/
+    }
 
-    private void playAnimation(double dx, double dy, double scale){
+    private void drawHypocycloid(double scale, MyAnimator animator) {
+        for (double i = 0d; i < 20 * PI; i += 0.05) {
+            if (!animationCanPlay) break;
+            double x = 4.4 * (cos(i) + cos(1.1 * i) / 1.1);
+            double y = 4.4 * (sin(i) - sin(1.1 * i) / 1.1);
+            GOval oval = new GOval(animator.getX() + x * scale, animator.getY() + y * scale, 1, 1);
+            add(oval);
+            pause(1);
+        }
+    }
 
+    private void drawEpicycloid(double scale, MyAnimator animator) {
+        for (double i = 0d; i < 20 * PI; i += 0.05) {
+            if (!animationCanPlay) break;
+            double x = 6.2 * (cos(i) - cos(3.1 * i) / 3.1);
+            double y = 6.2 * (sin(i) - sin(3.1 * i) / 3.1);
+            GOval oval = new GOval(animator.getX() + x * scale, animator.getY() + y * scale, 1, 1);
+            add(oval);
+            pause(1);
+        }
+    }
+
+    private void drawButterfly(double scale, MyAnimator animator) {
+        for (double i = 0d; i < 12 * PI; i += 0.01) {
+            if (!animationCanPlay) break;
+            double x = -sin(i) * (pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));
+            double y = -cos(i) *(pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));
+            GOval oval = new GOval(animator.getX() + x * scale, animator.getY() + y * scale, 1, 1);
+            add(oval);
+            pause(1000/180);
+        }
+    }
+
+    private void drawLissajou(double scale, MyAnimator animator) {
+        for (double i = 0d; i < 2 * PI; i += 0.0048) {
+            if (!animationCanPlay) break;
+            double x = sin( 5 * i + PI / 2);
+            double y = sin(6 * i);
+            GOval oval = new GOval(animator.getX() + x * scale, animator.getY() + y * scale, 1, 1);
+            add(oval);
+            pause(1);
+        }
+    }
+
+    private void drawCircles(double scale, MyAnimator animator) {
         for (double i = 0d; i < 2 * PI; i += 0.01) {
             if (!animationCanPlay) break;
             double x = sin(i);
             double y = cos(i);
-          /*double x = sin( 5 * i + PI / 2);
-          double y = sin(6 * i);*/
-            /*double x = -sin(i) * (pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));
-            double y = -cos(i) *(pow(E, cos(i)) - 2 * cos( 4 * i) + pow(sin((1 / 12) * i), 5));*/
-            GOval oval = new GOval(dx + x * scale, dy + y * scale, 1, 1);
+            GOval oval = new GOval(animator.getX() + x * scale, animator.getY() + y * scale, 1, 1);
             add(oval);
             pause(1000/384);
         }
-
     }
-    /*private class AnimationThread extends Thread {
-        @Override
-        public void run() {
-            while (!isInterrupted()) {
-                playAnimation(100, 100, 60);
-            }
-        }
-    }*/
 
     private class MyAnimator extends Animator {
         private String name;
@@ -127,9 +152,15 @@ public class Assignment3Part6 extends WindowProgram {
         public  MyAnimator init(String name) {
             this.name = name;
             switch (name) {
-                case "Circle":
-                    size = 1;
+                case "Butterfly":
+                    size = 3;
                     break;
+                case "Epicycloid":
+                case "Hypocycloid":
+                    size = 7;
+                    break;
+                case "Circle":
+                case "Lissajou":
                 default:
                     size = 1;
             }
@@ -152,7 +183,7 @@ public class Assignment3Part6 extends WindowProgram {
         @Override
         public void run() {
             double scale = WIDTH / 4 / size;
-            playAnimation(x, y, scale);
+            playAnimation(name, scale, this);
         }
     }
 }
