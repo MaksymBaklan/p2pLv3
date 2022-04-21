@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
-public class Assignment3Part6 extends WindowProgram {
+public class Assignment3Part7 extends WindowProgram {
 
     public static final int WIDTH = 300;
     public static final int HEIGHT = 300;
