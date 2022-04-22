@@ -16,6 +16,7 @@ public class Assignment3Part6 extends WindowProgram {
     public static final double DISTANCE_BETWEEN_RECT = 5;
 
     private GRect[] mainArr;
+    private GRect[] resultArr;
     private RandomGenerator rg = RandomGenerator.getInstance();
 
 
@@ -90,7 +91,7 @@ public class Assignment3Part6 extends WindowProgram {
             }
         }
 
-        GRect[] resultArr = new GRect[arr.length];
+        //GRect[] resultArr = new GRect[arr.length];
 
         if (greater.length > 1) greater = qSort(greater);
 
@@ -118,10 +119,13 @@ public class Assignment3Part6 extends WindowProgram {
     private void initMainArr() {
         int size = rg.nextInt(1, 100);
         mainArr = new GRect[size];
+        resultArr = new GRect[size];
 
         for (int i = 0; i < size; i++) {
             int height = rg.nextInt(200);
-            mainArr[i] = new GRect(i * (RECT_WIDTH + DISTANCE_BETWEEN_RECT), 200 - height, RECT_WIDTH, height);
+            GRect rect = new GRect(i * (RECT_WIDTH + DISTANCE_BETWEEN_RECT), 200 - height, RECT_WIDTH, height);
+            mainArr[i] = rect;
+            resultArr[i] = rect;
             paintRect(mainArr[i]);
             add(mainArr[i]);
         }
